@@ -1,4 +1,5 @@
 name: RustBukkit
 main: net.insprill.rustbukkit.RustBukkit
 version: ${version}
+authors: [ Insprill ]
 api-version: 1.13
