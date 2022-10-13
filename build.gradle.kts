@@ -2,6 +2,7 @@ import java.io.ByteArrayOutputStream
 
 plugins {
     id("java")
+    id("com.rikonardo.papermake") version "1.0.4"
 }
 
 group = "net.insprill"
