@@ -19,7 +19,7 @@ dependencies {
 
 tasks {
     compileJava {
-        options.compilerArgs.addAll(listOf("-h", "${file("native")}"))
+        options.compilerArgs.addAll(listOf("-h", "${file("${buildDir}/native")}"))
     }
     processResources {
         filteringCharset = Charsets.UTF_8.name()
