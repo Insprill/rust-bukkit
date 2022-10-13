@@ -17,6 +17,9 @@ dependencies {
 }
 
 tasks {
+    compileJava {
+        options.compilerArgs.addAll(listOf("-h", "${file("native")}"))
+    }
     processResources {
         filteringCharset = Charsets.UTF_8.name()
         filesMatching("plugin.yml") {
