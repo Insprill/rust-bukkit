@@ -17,6 +17,8 @@ public final class RustBukkit extends RustPlugin {
         setPluginManager(new RustPluginManager(this));
 
         pluginManager.registerPlugin(this);
+
+        attachJvm();
     }
 
     public static RustPluginManager getPluginManager() {
@@ -25,6 +27,12 @@ public final class RustBukkit extends RustPlugin {
 
     private static void setPluginManager(RustPluginManager pluginManager) {
         RustBukkit.pluginManager = pluginManager;
+    }
+
+    private static native void attachJvm();
+
+    public static void working(int i) {
+        System.out.println("Working! " + i);
     }
 
 }

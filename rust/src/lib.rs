@@ -1,12 +1,10 @@
 use jni::JNIEnv;
-use jni::objects::{JClass, JString};
-use jni::sys::jstring;
+use jni::objects::{JClass, JValue};
 
 #[no_mangle]
-pub extern "system" fn Java_net_insprill_rustbukkit_RustBukkit_hello(env: JNIEnv, _class: JClass, input: JString) -> jstring {
-    let input: String = env.get_string(input).expect("Couldn't get java string!").into();
-
-    let output = env.new_string(format!("Hello, {}!", input)).expect("Couldn't create java string!");
-
-    output.into_inner()
+pub extern "system" fn Java_net_insprill_rustbukkit_RustBukkit_attachJvm(env: JNIEnv, _class: JClass) {
+    let jvm = env.get_java_vm().expect("Failed to get JVM");
+    jvm.attach_current_thread_permanently().expect("Failed to attach to JVM thread");
+    let value = JValue::Int(1);
+    env.call_static_method("net/insprill/rustbukkit/RustBukkit", "working", "(I)V", &[value]).expect("Failed to invoke method");
 }
