@@ -29,6 +29,7 @@ public final class RustBukkit extends JavaPlugin {
         getLogger().info(hello("Insprill"));
     }
 
+    // region Native Library Loading
     private String getPlatformLibExtension() {
         String os = System.getProperty("os.name").toLowerCase(Locale.ROOT);
         String extension = "dll";
@@ -70,6 +71,7 @@ public final class RustBukkit extends JavaPlugin {
             }
         }
     }
+    // endregion
 
     private static native String hello(String str);
 
