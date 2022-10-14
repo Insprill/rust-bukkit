@@ -74,9 +74,9 @@ public class RustPluginManager {
             if (!dest.exists() && !dest.createNewFile()) {
                 throw new FileException("Failed to create cache file");
             }
-            if (compareHash(dest, library))
-                return dest;
             byte[] buffer = ByteStreams.toByteArray(library);
+            if (compareHash(dest, buffer))
+                return dest;
             Files.write(buffer, dest);
             return dest;
         } catch (IOException e) {
@@ -96,12 +96,10 @@ public class RustPluginManager {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    private boolean compareHash(File a, InputStream b) throws IOException {
+    private boolean compareHash(File a, byte[] b) throws IOException {
         byte[] fileBytes = Files.asByteSource(a).read();
-        byte[] streamBytes = new byte[b.available()];
-        ByteStreams.readFully(b, streamBytes);
         HashCode fileHash = Hashing.crc32().hashBytes(fileBytes);
-        HashCode streamHash = Hashing.crc32().hashBytes(streamBytes);
+        HashCode streamHash = Hashing.crc32().hashBytes(b);
         return fileHash.equals(streamHash);
     }
 
