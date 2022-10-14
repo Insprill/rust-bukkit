@@ -38,6 +38,11 @@ tasks {
     }
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
 
 fun buildRustLib(): File? {
     val rustDir = file("rust")
