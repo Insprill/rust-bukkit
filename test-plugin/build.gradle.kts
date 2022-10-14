@@ -1,7 +1,6 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("com.rikonardo.papermake") version "1.0.4"
 }
 
 group = "net.insprill"
