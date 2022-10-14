@@ -44,20 +44,21 @@ java {
     }
 }
 
-fun buildRustLib(): File? {
+fun buildRustLib(): List<File> {
     val rustDir = file("rust")
     exec {
         commandLine("cargo", "build", "--release", "--manifest-path=$rustDir/Cargo.toml")
     }
     val releaseDir = File(rustDir.absolutePath, "target/release")
+    val files = ArrayList<File>()
     for (file in releaseDir.listFiles()!!) {
         when (file.name) {
-            "rust_bukkit.dll" -> return file
-            "rust_bukkit.so" -> return file
-            "rust_bukkit.dylib" -> return file
+            "rust_bukkit.dll" -> files.add(file)
+            "rust_bukkit.so" -> files.add(file)
+            "rust_bukkit.dylib" -> files.add(file)
         }
     }
-    return null
+    return listOf()
 }
 
 fun getFullVersion(): String {
