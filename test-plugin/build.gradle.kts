@@ -55,5 +55,8 @@ fun buildRustLib(): List<File> {
             "rust_bukkit.dylib" -> files.add(file)
         }
     }
-    return listOf()
+    if (files.isEmpty()) {
+        throw IllegalStateException("Failed to find any native libraries")
+    }
+    return files
 }
