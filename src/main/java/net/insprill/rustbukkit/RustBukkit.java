@@ -12,34 +12,20 @@ import java.util.logging.Level;
 
 public final class RustBukkit extends JavaPlugin {
 
+    private static boolean loaded;
+    private static void setLoaded(boolean loaded) {
+        RustBukkit.loaded = loaded;
+    }
+
     @Override
-    @SuppressWarnings("UnstableApiUsage")
     public void onEnable() {
-        String ext = getPlatformLibExtension();
-        File libFile = new File(getDataFolder(), "rust_bukkit." + ext);
-
-        try (InputStream platformLib = getResource("rust_bukkit." + ext)) {
-            if (!libFile.exists()) {
-                libFile.getParentFile().mkdirs();
-                libFile.createNewFile();
-            }
-            byte[] buffer = ByteStreams.toByteArray(platformLib);
-            Files.write(buffer, libFile);
-        } catch (IOException e) {
-            getLogger().log(Level.SEVERE, "Failed to write platform native library!", e);
-            getServer().getPluginManager().disablePlugin(this);
-            return;
+        if (!loaded) {
+            String ext = getPlatformLibExtension();
+            File libFile = new File(getDataFolder(), "rust_bukkit." + ext);
+            writeNativeLibrary(libFile, ext);
+            loadNativeLibrary(libFile);
         }
 
-        try {
-            System.load(libFile.getAbsolutePath());
-        } catch (UnsatisfiedLinkError e) {
-            if (!e.getMessage().contains("already loaded")) {
-                getLogger().log(Level.SEVERE, "Failed to load native library", e);
-                getServer().getPluginManager().disablePlugin(this);
-                return;
-            }
-        }
         getLogger().info(hello("Insprill"));
     }
 
@@ -54,6 +40,35 @@ public final class RustBukkit extends JavaPlugin {
             extension = "so";
         }
         return extension;
+    }
+
+    @SuppressWarnings("UnstableApiUsage")
+    private void writeNativeLibrary(File libFile, String ext) {
+        // TODO: Save a hash of the library and only write it if the internal hash doesn't match the one on disk.
+        try (InputStream platformLib = getResource("rust_bukkit." + ext)) {
+            if (!libFile.exists()) {
+                libFile.getParentFile().mkdirs();
+                libFile.createNewFile();
+            }
+            byte[] buffer = ByteStreams.toByteArray(platformLib);
+            Files.write(buffer, libFile);
+        } catch (IOException e) {
+            getLogger().log(Level.SEVERE, "Failed to write platform native library!", e);
+            getServer().getPluginManager().disablePlugin(this);
+        }
+    }
+
+    private void loadNativeLibrary(File libFile) {
+        try {
+            System.load(libFile.getAbsolutePath());
+            setLoaded(true);
+            getLogger().info("Loaded native library.");
+        } catch (UnsatisfiedLinkError e) {
+            if (!e.getMessage().contains("already loaded")) {
+                getLogger().log(Level.SEVERE, "Failed to load native library", e);
+                getServer().getPluginManager().disablePlugin(this);
+            }
+        }
     }
 
     private static native String hello(String str);
