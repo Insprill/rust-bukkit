@@ -15,10 +15,7 @@ public final class RustBukkit extends RustPlugin {
     @Override
     public void onEnable() {
         setPluginManager(new RustPluginManager(this));
-
-        pluginManager.registerPlugin(this);
-
-        attachJvm();
+        super.onEnable();
     }
 
     public static RustPluginManager getPluginManager() {
@@ -29,10 +26,7 @@ public final class RustBukkit extends RustPlugin {
         RustBukkit.pluginManager = pluginManager;
     }
 
-    private static native void attachJvm();
-
-    public static void working(int i) {
-        System.out.println("Working! " + i);
-    }
+    @Override
+    public native void enable();
 
 }
