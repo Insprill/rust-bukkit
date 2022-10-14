@@ -36,6 +36,15 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
+    val copyTestPlugin = register<Copy>("copyTestPlugin") {
+        val testPluginShadowJar = project(":test-plugin").tasks.shadowJar
+        dependsOn(testPluginShadowJar)
+        from(testPluginShadowJar.get().archiveFile.get().asFile)
+        into("${buildDir}/papermake/run/plugins")
+    }
+    devServer {
+        dependsOn(copyTestPlugin)
+    }
 }
 
 java {
