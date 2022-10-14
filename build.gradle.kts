@@ -56,9 +56,9 @@ java {
 fun buildRustLib(): List<File> {
     val rustDir = file("rust")
     exec {
-        commandLine("cargo", "build", "--release", "--manifest-path=$rustDir/Cargo.toml")
+        commandLine("cargo", "build", "--release", "--manifest-path=$rustDir${File.separator}Cargo.toml")
     }
-    val releaseDir = File(rustDir.absolutePath, "target/release")
+    val releaseDir = File(rustDir.absolutePath, "target${File.separator}release")
     val files = ArrayList<File>()
     for (file in releaseDir.listFiles()!!) {
         when (file.name) {
