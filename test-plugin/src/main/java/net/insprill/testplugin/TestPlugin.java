@@ -1,11 +1,23 @@
 package net.insprill.testplugin;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import net.insprill.rustbukkit.plugin.RustPlugin;
+import org.bukkit.Bukkit;
 
-public class TestPlugin extends JavaPlugin {
+import java.util.logging.Level;
+
+public class TestPlugin extends RustPlugin {
+
+    @Override
+    public String libraryName() {
+        return "test_plugin";
+    }
 
     @Override
     public void onEnable() {
+        super.onEnable();
+        getLogger().log(Level.INFO, "{}", hello(Bukkit.getName()));
     }
+
+    private static native String hello(String str);
 
 }
