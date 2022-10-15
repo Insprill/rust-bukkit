@@ -31,7 +31,6 @@ tasks {
     shadowJar {
         archiveClassifier.set("")
         from("LICENSE")
-        from(buildRustLib())
     }
     build {
         dependsOn(shadowJar)
@@ -42,26 +41,6 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
-}
-
-fun buildRustLib(): List<File> {
-    val rustDir = file("rust")
-    exec {
-        commandLine("cargo", "build", "--release", "--manifest-path=$rustDir${File.separator}Cargo.toml")
-    }
-    val releaseDir = File(rustDir.absolutePath, "target${File.separator}release")
-    val files = ArrayList<File>()
-    for (file in releaseDir.listFiles()!!) {
-        when (file.name) {
-            "rust_bukkit.dll" -> files.add(file)
-            "rust_bukkit.so" -> files.add(file)
-            "rust_bukkit.dylib" -> files.add(file)
-        }
-    }
-    if (files.isEmpty()) {
-        throw IllegalStateException("Failed to find any native libraries")
-    }
-    return files
 }
 
 fun getFullVersion(): String {
