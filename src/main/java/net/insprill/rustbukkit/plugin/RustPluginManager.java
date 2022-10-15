@@ -48,11 +48,25 @@ public class RustPluginManager {
     }
 
     public void registerPlugin(RustPlugin plugin) {
-        if (plugins.contains(plugin)) {
+        if (isPluginRegistered(plugin)) {
             throw new PluginException("Already loaded plugin " + plugin.getName() + "!");
         }
         loadPluginLib(plugin);
+        plugin.enable();
         plugins.add(plugin);
+    }
+
+    public boolean isPluginRegistered(RustPlugin plugin) {
+        return plugins.contains(plugin);
+    }
+
+    public void unregisterPlugin(RustPlugin plugin) {
+        if (!isPluginRegistered(plugin)) {
+            throw new PluginException("Plugin " + plugin.getName() + " was never registered!");
+        }
+        loadPluginLib(plugin);
+        plugin.disable();
+        plugins.remove(plugin);
     }
 
     private void loadPluginLib(RustPlugin plugin) {
