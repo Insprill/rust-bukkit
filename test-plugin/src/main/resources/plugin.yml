@@ -4,3 +4,7 @@ version: ${version}
 api-version: 1.13
 depend:
   - RustBukkit
+
+commands:
+  rusty:
+    description: "It's rustin time"
