@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
+import java.util.logging.Level;
 
 public class RustPluginManager {
 
@@ -92,6 +93,7 @@ public class RustPluginManager {
             if (compareHash(dest, buffer))
                 return dest;
             Files.write(buffer, dest);
+            rootPlugin.getLogger().log(Level.INFO, "Cached native library for {0} to {1}", new Object[]{ plugin.getName(), dest });
             return dest;
         } catch (IOException e) {
             throw new FileException("Failed to cache platform native library!", e);
