@@ -49,7 +49,6 @@ public class RustPluginManager {
         if (!isPluginRegistered(plugin)) {
             throw new PluginException("Plugin " + plugin.getName() + " was never registered!");
         }
-        loadPluginLib(plugin);
         plugin.disable();
         plugins.remove(plugin);
     }
