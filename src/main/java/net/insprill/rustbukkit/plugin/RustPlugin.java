@@ -7,6 +7,7 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Objects;
@@ -40,6 +41,8 @@ public abstract class RustPlugin extends JavaPlugin {
 
     public void disable() {
     }
+
+    public abstract void loadNativeLibrary(@NotNull File libFile);
 
     @SuppressWarnings("unchecked")
     private @NotNull Collection<Command> getCommands() throws ReflectiveOperationException {

@@ -59,8 +59,8 @@ public class RustPluginManager {
             if (resource == null) {
                 throw new NativeLibraryException("Failed to find native library for " + plugin.getName() + ". Does it support this platform?");
             }
-            File cacheFile = cacheNativeLibrary(resource, plugin);
-            loadNativeLibrary(cacheFile, plugin);
+            File libFile = cacheNativeLibrary(resource, plugin);
+            plugin.loadNativeLibrary(libFile);
         } catch (Exception e) {
             throw new PluginException("Failed to load library for " + plugin.getName() + "!", e);
         }
@@ -81,17 +81,6 @@ public class RustPluginManager {
             return dest;
         } catch (IOException e) {
             throw new FileException("Failed to cache platform native library!", e);
-        }
-    }
-
-    private void loadNativeLibrary(File libFile, RustPlugin plugin) {
-        try {
-            System.load(libFile.getAbsolutePath());
-            rootPlugin.getLogger().info("Loaded native library for " + plugin.getName() + ".");
-        } catch (UnsatisfiedLinkError e) {
-            if (!e.getMessage().contains("already loaded")) {
-                throw new NativeLibraryException("Failed to load library for " + plugin.getName(), e);
-            }
         }
     }
 
