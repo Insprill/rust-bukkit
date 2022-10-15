@@ -35,8 +35,7 @@ public abstract class RustPlugin extends JavaPlugin {
 
     public abstract String libraryName();
 
-    public void enable() {
-    }
+    public abstract void enable();
 
     public void disable() {
     }
