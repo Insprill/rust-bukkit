@@ -3,6 +3,7 @@ package net.insprill.rustbukkit;
 import net.insprill.rustbukkit.command.RustCommandHandler;
 import net.insprill.rustbukkit.plugin.RustPlugin;
 import net.insprill.rustbukkit.plugin.RustPluginManager;
+import org.jetbrains.annotations.NotNull;
 
 public final class RustBukkit extends RustPlugin {
 
@@ -22,7 +23,7 @@ public final class RustBukkit extends RustPlugin {
     private RustCommandHandler commandHandler;
 
     @Override
-    public String libraryName() {
+    public @NotNull String libraryName() {
         return "rust_bukkit";
     }
 

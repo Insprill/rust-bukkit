@@ -8,6 +8,7 @@ import net.insprill.rustbukkit.exception.FileException;
 import net.insprill.rustbukkit.exception.NativeLibraryException;
 import net.insprill.rustbukkit.exception.PluginException;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class RustPluginManager {
     private final JavaPlugin rootPlugin;
     private final Set<RustPlugin> plugins = new HashSet<>();
 
-    public RustPluginManager(JavaPlugin rootPlugin) {
+    public RustPluginManager(@NotNull JavaPlugin rootPlugin) {
         this.rootPlugin = rootPlugin;
         this.cacheDir = new File(rootPlugin.getDataFolder(), "cache");
         if (this.cacheDir.exists() && !this.cacheDir.isDirectory()) {
@@ -32,7 +33,7 @@ public class RustPluginManager {
         }
     }
 
-    public void registerPlugin(RustPlugin plugin) {
+    public void registerPlugin(@NotNull RustPlugin plugin) {
         if (isPluginRegistered(plugin)) {
             throw new PluginException("Already loaded plugin " + plugin.getName() + "!");
         }
@@ -41,11 +42,11 @@ public class RustPluginManager {
         plugins.add(plugin);
     }
 
-    public boolean isPluginRegistered(RustPlugin plugin) {
+    public boolean isPluginRegistered(@NotNull RustPlugin plugin) {
         return plugins.contains(plugin);
     }
 
-    public void unregisterPlugin(RustPlugin plugin) {
+    public void unregisterPlugin(@NotNull RustPlugin plugin) {
         if (!isPluginRegistered(plugin)) {
             throw new PluginException("Plugin " + plugin.getName() + " was never registered!");
         }
@@ -53,7 +54,7 @@ public class RustPluginManager {
         plugins.remove(plugin);
     }
 
-    private void loadPluginLib(RustPlugin plugin) {
+    private void loadPluginLib(@NotNull RustPlugin plugin) {
         try (InputStream resource = plugin.getResource(System.mapLibraryName(plugin.libraryName()))) {
             if (resource == null) {
                 throw new NativeLibraryException("Failed to find native library for " + plugin.getName() + ". Does it support this platform?");
@@ -66,7 +67,7 @@ public class RustPluginManager {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    private File cacheNativeLibrary(InputStream library, RustPlugin plugin) {
+    private @NotNull File cacheNativeLibrary(@NotNull InputStream library, @NotNull RustPlugin plugin) {
         try {
             File dest = new File(this.cacheDir, System.mapLibraryName(plugin.getName()));
             if (!dest.exists() && !dest.createNewFile()) {
@@ -95,7 +96,7 @@ public class RustPluginManager {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    private boolean compareHash(File a, byte[] b) throws IOException {
+    private boolean compareHash(@NotNull File a, byte[] b) throws IOException {
         byte[] fileBytes = Files.asByteSource(a).read();
         HashCode fileHash = Hashing.crc32().hashBytes(fileBytes);
         HashCode streamHash = Hashing.crc32().hashBytes(b);
