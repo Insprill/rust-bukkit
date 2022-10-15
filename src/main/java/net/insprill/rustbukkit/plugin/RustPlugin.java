@@ -10,6 +10,11 @@ public abstract class RustPlugin extends JavaPlugin {
         RustBukkit.getPluginManager().registerPlugin(this);
     }
 
+    @Override
+    public void onDisable() {
+        RustBukkit.getInstance().getPluginManager().unregisterPlugin(this);
+    }
+
     public abstract String libraryName();
 
     public void enable() {
