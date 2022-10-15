@@ -2,8 +2,6 @@ name: TestPlugin
 main: net.insprill.testplugin.TestPlugin
 version: ${version}
 api-version: 1.13
-depend:
-  - RustBukkit
 
 commands:
   rusty:

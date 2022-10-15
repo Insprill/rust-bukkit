@@ -39,14 +39,14 @@ impl Command {
 }
 
 #[no_mangle]
-pub extern "system" fn net_insprill_rustbukkit_command_RustCommandHandler(env: JNIEnv, _obj: JObject, j_name: JString, j_label: JString, j_args: jobjectArray) {
-    let name: String = env.get_string(j_name).expect("Failed to get java string!").into();
-    let label: String = env.get_string(j_label).expect("Failed to get java string!").into();
+pub extern "system" fn Java_net_insprill_rustbukkit_command_RustCommandHandler_execute(env: JNIEnv, _obj: JObject, j_name: JString, j_label: JString, j_args: jobjectArray) {
+    let name: String = env.get_string(j_name).expect("Failed to get command name!").into();
+    let label: String = env.get_string(j_label).expect("Failed to get command label!").into();
     let len = env.get_array_length(j_args).expect("Failed to get args length!");
     let mut args: Vec<String> = Vec::new();
     for x in 0..len {
         let element = env.get_object_array_element(j_args, x).expect("Failed to get array element");
-        args.push(env.get_string(JString::from(element)).expect("Failed to get java string!").into())
+        args.push(env.get_string(JString::from(element)).expect("Failed to get arg string!").into())
     }
     for command in &get_bukkit().commands {
         if !(command.name.eq(&name)) {

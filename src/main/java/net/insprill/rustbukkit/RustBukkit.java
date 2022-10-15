@@ -1,41 +1,17 @@
 package net.insprill.rustbukkit;
 
 import net.insprill.rustbukkit.command.RustCommandHandler;
-import net.insprill.rustbukkit.exception.NativeLibraryException;
-import net.insprill.rustbukkit.plugin.RustPlugin;
 import net.insprill.rustbukkit.plugin.RustPluginManager;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+public final class RustBukkit {
 
-public final class RustBukkit extends RustPlugin {
+    private final RustPluginManager pluginManager;
+    private final RustCommandHandler commandHandler;
 
-    // region Singleton
-    private static RustBukkit instance;
-
-    private static void setInstance(RustBukkit instance) {
-        RustBukkit.instance = instance;
-    }
-
-    public static RustBukkit getInstance() {
-        return RustBukkit.instance;
-    }
-    // endregion
-
-    private RustPluginManager pluginManager;
-    private RustCommandHandler commandHandler;
-
-    @Override
-    public @NotNull String libraryName() {
-        return "rust_bukkit";
-    }
-
-    @Override
-    public void onEnable() {
-        setInstance(this);
-        this.pluginManager = new RustPluginManager(this);
+    public RustBukkit(JavaPlugin plugin) {
+        this.pluginManager = new RustPluginManager(plugin);
         this.commandHandler = new RustCommandHandler();
-        super.onEnable();
     }
 
     public RustPluginManager getPluginManager() {
@@ -44,21 +20,6 @@ public final class RustBukkit extends RustPlugin {
 
     public RustCommandHandler getCommandHandler() {
         return this.commandHandler;
-    }
-
-    @Override
-    public native void enable();
-
-    @Override
-    public void loadNativeLibrary(@NotNull File libFile) {
-        try {
-            System.load(libFile.getAbsolutePath());
-            getLogger().info("Loaded native library.");
-        } catch (UnsatisfiedLinkError e) {
-            if (!e.getMessage().contains("already loaded")) {
-                throw new NativeLibraryException("Failed to load library", e);
-            }
-        }
     }
 
 }

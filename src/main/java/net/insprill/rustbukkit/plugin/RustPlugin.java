@@ -1,6 +1,7 @@
 package net.insprill.rustbukkit.plugin;
 
 import net.insprill.rustbukkit.RustBukkit;
+import net.insprill.rustbukkit.exception.NativeLibraryException;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
@@ -15,10 +16,12 @@ import java.util.logging.Level;
 
 public abstract class RustPlugin extends JavaPlugin {
 
+    private RustBukkit rustBukkit;
+
     @Override
     public void onEnable() {
-        RustBukkit rustBukkit = RustBukkit.getInstance();
-        rustBukkit.getPluginManager().registerPlugin(this);
+        this.rustBukkit = new RustBukkit(this);
+        this.rustBukkit.getPluginManager().registerPlugin(this);
 
         try {
             getCommands().parallelStream()
@@ -32,7 +35,7 @@ public abstract class RustPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        RustBukkit.getInstance().getPluginManager().unregisterPlugin(this);
+        this.rustBukkit.getPluginManager().unregisterPlugin(this);
     }
 
     public abstract @NotNull String libraryName();
@@ -42,7 +45,16 @@ public abstract class RustPlugin extends JavaPlugin {
     public void disable() {
     }
 
-    public abstract void loadNativeLibrary(@NotNull File libFile);
+    public void loadNativeLibrary(@NotNull File libFile) {
+        try {
+            System.load(libFile.getAbsolutePath());
+            getLogger().info("Loaded native library.");
+        } catch (UnsatisfiedLinkError e) {
+            if (!e.getMessage().contains("already loaded")) {
+                throw new NativeLibraryException("Failed to load library", e);
+            }
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private @NotNull Collection<Command> getCommands() throws ReflectiveOperationException {

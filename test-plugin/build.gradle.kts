@@ -1,6 +1,7 @@
 plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.rikonardo.papermake") version "1.0.4"
 }
 
 group = "net.insprill"
@@ -14,7 +15,7 @@ repositories {
 dependencies {
     compileOnly("org.jetbrains:annotations:23.0.0")
     compileOnly("org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT")
-    compileOnly(project(":"))
+    implementation(project(":"))
 }
 
 tasks {

@@ -4,7 +4,8 @@ use jni::objects::{JObject};
 use rust_bukkit::bukkit::command::Command;
 
 #[no_mangle]
-pub extern "system" fn Java_net_insprill_testplugin_TestPlugin_enable(_env: JNIEnv, _obj: JObject) {
+pub extern "system" fn Java_net_insprill_testplugin_TestPlugin_enable(env: JNIEnv, obj: JObject) {
+    rust_bukkit::enable(env, obj);
     Command::new("rusty")
             .executor(|args| {
                 println!("{}", args.args.join(" "))

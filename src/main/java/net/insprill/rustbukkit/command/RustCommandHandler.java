@@ -12,7 +12,7 @@ public class RustCommandHandler implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
-        execute(command.getName(), args);
+        execute(command.getName(), label, args);
         return true;
     }
 
@@ -21,6 +21,6 @@ public class RustCommandHandler implements TabExecutor {
         return Collections.emptyList();
     }
 
-    private native void execute(String name, String[] args);
+    private native void execute(String name, String label, String[] args);
 
 }
