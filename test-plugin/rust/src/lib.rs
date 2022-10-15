@@ -11,5 +11,6 @@ pub extern "system" fn Java_net_insprill_testplugin_TestPlugin_enable(_env: JNIE
             })
             .tab_completer(|_| {
                 vec!["aye".to_string(), "yoo".to_string()]
-            });
+            })
+            .register();
 }
