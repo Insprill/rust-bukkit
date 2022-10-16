@@ -1,7 +1,5 @@
-use std::fmt;
-
-use jni::objects::{JObject, JValue};
 use jni::JNIEnv;
+use jni::objects::{JObject, JValue};
 use jni::sys::jint;
 use rand::Rng;
 
@@ -15,12 +13,6 @@ pub enum EventPriority {
     HIGH,
     HIGHEST,
     MONITOR,
-}
-
-impl fmt::Display for EventPriority {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
 }
 
 pub struct Event {}
@@ -60,23 +52,18 @@ impl EventHandler {
             env.new_string(&self.event)
                 .expect("Failed to create event string"),
         );
-        let j_priority = JValue::from(
-            env.new_string(&self.priority.to_string())
-                .expect("Failed to create priority string"),
-        );
 
         env.call_method(
             get_event_handler(env, obj),
             "registerEvent",
-            "(ILjava/lang/String;Ljava/lang/String;Z)V",
+            "(ILjava/lang/String;BZ)V",
             &[
                 JValue::from(self.id),
                 j_event,
-                j_priority,
+                JValue::from(self.priority as u8),
                 JValue::from(self.ignore_cancelled),
             ],
-        )
-        .expect("Failed to register event");
+        ).expect("Failed to register event");
 
         get_bukkit().event_handlers.push(self);
     }
