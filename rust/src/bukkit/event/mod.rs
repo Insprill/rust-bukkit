@@ -1,6 +1,6 @@
-use jni::JNIEnv;
 use jni::objects::{JObject, JValue};
 use jni::sys::jint;
+use jni::JNIEnv;
 use rand::Rng;
 
 use crate::{get_bukkit, get_event_handler};
@@ -63,7 +63,8 @@ impl EventHandler {
                 JValue::from(self.priority as u8),
                 JValue::from(self.ignore_cancelled),
             ],
-        ).expect("Failed to register event");
+        )
+        .expect("Failed to register event");
 
         get_bukkit().event_handlers.push(self);
     }
