@@ -99,6 +99,7 @@ If you're unsure what the method name should be, you can run your Java compiler 
 The `disable` method must be written the same way.
 
 
+For examples of this in action, check out the [test-plugin](https://github.com/Insprill/rust-bukkit/tree/master/test-plugin) module.
 
 
 <!-- BUILDING -->
