@@ -2,7 +2,7 @@ use jni::JNIEnv;
 use jni::objects::JObject;
 
 use rust_bukkit::bukkit::command::Command;
-use rust_bukkit::bukkit::event::EventHandler;
+use rust_bukkit::bukkit::event::{EventHandler, EventPriority};
 
 #[no_mangle]
 pub extern "system" fn Java_net_insprill_testplugin_TestPlugin_enable(env: JNIEnv, obj: JObject) {
@@ -20,5 +20,7 @@ pub extern "system" fn Java_net_insprill_testplugin_TestPlugin_enable(env: JNIEn
             .executor(|_| {
                 println!("Event fired!")
             })
+            .ignore_cancelled(true)
+            .priority(EventPriority::MONITOR)
             .register(env, obj);
 }
