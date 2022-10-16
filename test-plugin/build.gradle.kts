@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.insprill"
-version = "0.1.0"
+version = rootProject.version
 
 repositories {
     mavenCentral()
