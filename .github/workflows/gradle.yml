@@ -24,8 +24,8 @@ jobs:
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
-            "rust"
-            "test-plugin/rust"
+            rust
+            test-plugin/rust
 
       - name: Check Code Style
         uses: actions-rs/clippy@master
