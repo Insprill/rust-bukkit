@@ -27,6 +27,7 @@ tasks {
     }
     shadowJar {
         archiveClassifier.set("")
+        from("../LICENSE")
         from(buildRustLib())
     }
     build {
