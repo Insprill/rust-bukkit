@@ -26,6 +26,6 @@ public class RustEventHandler implements Listener {
         }, plugin, ignoreCancelled);
     }
 
-    private native void execute(int id, @NotNull Event event);
+    private native void execute(int id, Event event);
 
 }

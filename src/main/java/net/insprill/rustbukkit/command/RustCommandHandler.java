@@ -21,8 +21,8 @@ public class RustCommandHandler implements TabExecutor {
         return Arrays.asList(tabComplete(command.getName(), label, args));
     }
 
-    private native void execute(@NotNull String name, @NotNull String label, @NotNull String[] args);
+    private native void execute(String name, String label, String[] args);
 
-    private native @NotNull String[] tabComplete(@NotNull String name, @NotNull String label, @NotNull String[] args);
+    private native String[] tabComplete(String name, String label, String[] args);
 
 }
