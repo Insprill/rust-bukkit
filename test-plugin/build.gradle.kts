@@ -4,9 +4,6 @@ plugins {
     id("com.rikonardo.papermake") version "1.0.4"
 }
 
-group = "net.insprill"
-version = rootProject.version
-
 repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot-API

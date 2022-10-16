@@ -5,8 +5,10 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "net.insprill"
-version = getFullVersion()
+allprojects {
+    group = "net.insprill"
+    version = getFullVersion()
+}
 
 repositories {
     mavenCentral()
