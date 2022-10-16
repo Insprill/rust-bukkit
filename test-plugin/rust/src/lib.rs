@@ -1,5 +1,5 @@
 use jni::JNIEnv;
-use jni::objects::{JObject};
+use jni::objects::JObject;
 
 use rust_bukkit::bukkit::command::Command;
 

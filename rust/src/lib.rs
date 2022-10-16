@@ -1,5 +1,6 @@
 use jni::JNIEnv;
-use jni::objects::{JObject};
+use jni::objects::JObject;
+
 use crate::bukkit::command::Command;
 
 pub mod bukkit;

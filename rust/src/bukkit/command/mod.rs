@@ -1,6 +1,6 @@
 use jni::JNIEnv;
 use jni::objects::{JObject, JString};
-use jni::sys::{jobjectArray};
+use jni::sys::jobjectArray;
 
 use crate::get_bukkit;
 
@@ -74,7 +74,6 @@ pub extern "system" fn Java_net_insprill_rustbukkit_command_RustCommandHandler_t
     }
     env.new_object_array(0, "java/lang/String", JObject::null()).expect("Failed to create empty arg array")
 }
-
 
 fn parse_command_args(env: JNIEnv, j_name: JString, j_label: JString, j_args: jobjectArray) -> CommandArgs {
     let name: String = env.get_string(j_name).expect("Failed to get command name!").into();
