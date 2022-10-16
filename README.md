@@ -91,10 +91,12 @@ In your `lib.rs`, the entry point is the enable method. This method must be writ
 ```rust
 #[no_mangle]
 pub extern "system" fn Java_my_package_MyClass_enable(env: JNIEnv, obj: JObject) {
+    rust_bukkit::enable(env, obj);
 }
 ```
 `my_package` and `MyClass` are the package and class name of your main class, with the dots replaced with underscores.
 If you're unsure what the method name should be, you can run your Java compiler with the `-h` flag and view the C header file that's generated and copy the method name from there.
+Note that the call to `rust_bukkit::enable` is required.
 
 The `disable` method must be written the same way.
 
