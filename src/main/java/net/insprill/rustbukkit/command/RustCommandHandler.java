@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 public class RustCommandHandler implements TabExecutor {
@@ -18,9 +18,11 @@ public class RustCommandHandler implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        return Collections.emptyList();
+        return Arrays.asList(tabComplete(command.getName(), label, args));
     }
 
     private native void execute(String name, String label, String[] args);
+
+    private native String[] tabComplete(String name, String label, String[] args);
 
 }
