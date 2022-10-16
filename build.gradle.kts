@@ -46,7 +46,7 @@ java {
 }
 
 fun getFullVersion(): String {
-    val version = project.property("version")!! as String
+    val version = project.property("project_version")!! as String
     return if (version.contains("-SNAPSHOT")) {
         "$version+rev.${getGitHash()}"
     } else {
