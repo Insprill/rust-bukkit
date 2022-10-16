@@ -43,22 +43,15 @@ java {
     }
 }
 
-fun buildRustLib(): List<File> {
+fun buildRustLib(): File {
     val rustDir = file("rust")
     exec {
         commandLine("cargo", "build", "--release", "--manifest-path=$rustDir${File.separator}Cargo.toml")
     }
     val releaseDir = File(rustDir.absolutePath, "target${File.separator}release")
-    val files = ArrayList<File>()
-    for (file in releaseDir.listFiles()!!) {
-        when (file.name) {
-            "test_plugin.dll" -> files.add(file)
-            "test_plugin.so" -> files.add(file)
-            "test_plugin.dylib" -> files.add(file)
-        }
+    val lib = File(releaseDir, System.mapLibraryName("test_plugin"))
+    if (!lib.isFile) {
+        throw IllegalStateException("Failed to find native library")
     }
-    if (files.isEmpty()) {
-        throw IllegalStateException("Failed to find any native libraries")
-    }
-    return files
+    return lib
 }
