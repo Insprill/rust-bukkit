@@ -1,0 +1,35 @@
+name: Build
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@master
+
+      - name: Setup Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          components: clippy
+          override: true
+          profile: minimal
+          toolchain: stable
+
+      - name: Setup Cache
+        uses: Swatinem/rust-cache@v1
+
+      - name: Check Code Style
+        uses: actions-rs/clippy@master
+        with:
+          args: -- -D warnings
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build
+        run: ./gradlew build
