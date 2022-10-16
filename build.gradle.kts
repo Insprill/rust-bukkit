@@ -24,12 +24,6 @@ tasks {
     compileJava {
         options.compilerArgs.addAll(listOf("-h", "${file("${buildDir}/native")}"))
     }
-    processResources {
-        filteringCharset = Charsets.UTF_8.name()
-        filesMatching("plugin.yml") {
-            expand("version" to version)
-        }
-    }
     shadowJar {
         archiveClassifier.set("")
         from("LICENSE")
